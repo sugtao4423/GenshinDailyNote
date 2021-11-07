@@ -12,8 +12,8 @@ class CliController
     {
         global $argv;
         if (!isset($argv[1])) {
-            echo 'Usage: ' . basename(__FILE__) . " $1\n";
-            echo "  $1: username alias\n";
+            echo 'Usage: ' . basename(__FILE__) . ' $1' . PHP_EOL;
+            echo '  $1: username alias' . PHP_EOL;
             exit(1);
         }
         $this->echoCli($argv[1]);
@@ -23,13 +23,13 @@ class CliController
     {
         $user = (new ConfigService())->getUserByAlias($userAlias);
         if ($user === null) {
-            echo "User not found.\n";
+            echo 'User not found.' . PHP_EOL;
             exit(1);
         }
 
         $dailyNote = (new DailyNoteService())->getDailyNote($user);
         if ($dailyNote === null) {
-            echo "Failed to get daily note.\n";
+            echo 'Failed to get daily note.' . PHP_EOL;
             exit(1);
         }
 

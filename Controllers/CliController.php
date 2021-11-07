@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../Services/ConfigService.php';
 require_once __DIR__ . '/../Services/DailyNoteService.php';
-require_once __DIR__ . '/../Commons/Utils.php';
+require_once __DIR__ . '/../Services/OutputFormatService.php';
 
 class CliController
 {
@@ -33,21 +33,7 @@ class CliController
             exit(1);
         }
 
-        $resins = Utils::currentSmax($dailyNote->getCurrentResin(), $dailyNote->getMaxResin());
-        $resinRecovery = Utils::seconds2human($dailyNote->getResinRecoveryTime());
-        $dailyCommissions = Utils::currentSmax($dailyNote->getFinishedTaskNum(), $dailyNote->getTotalTaskNum());
-        $gotCommissionReward = $dailyNote->isExtraTaskRewardReceived() ? 'Yes' : 'No';
-        $expeditions = Utils::currentSmax($dailyNote->getCurrentExpeditionNum(), $dailyNote->getMaxExpeditionNum());
-
-        echo "Resin: $resins\n";
-        echo "Resin Recovery: $resinRecovery\n";
-        echo "Daily Commissions: $dailyCommissions\n";
-        echo "Got Commission Reward: $gotCommissionReward\n";
-        echo "Expeditions: $expeditions\n";
-
-        foreach ($dailyNote->getExpeditions() as $i => $expedition) {
-            echo '  Expedition#' . ($i + 1) . ": ";
-            echo Utils::seconds2human($expedition->getRemainedTime()) . " left\n";
-        }
+        $text = (new OutputFormatService($dailyNote))->getCliOutput();
+        echo $text . PHP_EOL;
     }
 }

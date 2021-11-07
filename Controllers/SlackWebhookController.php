@@ -59,7 +59,7 @@ class SlackWebhookController
                 ]
             ];
         } else {
-            $data['blicks'] = $blocks;
+            $data['blocks'] = $blocks;
         }
 
         header('Content-Type: application/json; charset=utf-8');

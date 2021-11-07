@@ -25,7 +25,7 @@ class ConfigService
     public function getUserByAlias(string $alias): ?Config
     {
         foreach ($this->users as $user) {
-            if ($user->getAlias() === $alias) {
+            if (strtolower($user->getAlias()) === strtolower($alias)) {
                 return $user;
             }
         }

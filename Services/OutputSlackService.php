@@ -3,10 +3,30 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/OutputBaseService.php';
+require_once __DIR__ . '/../Data/Config.php';
 
 class OutputSlackService extends OutputBaseService
 {
-    public function getSlackAttachmentColor(): string
+    public function getSlackOutput(Config $user, string $gaveSlackUserId, string $command): string
+    {
+        $blocks = $this->getSlackWebhookBlocks($user, $gaveSlackUserId, $command);
+
+        $data = ['response_type' => 'in_channel'];
+        if ($command === '/genshin' || $command === '/resin') {
+            $data['attachments'] = [
+                [
+                    'color' => $this->getSlackAttachmentColor(),
+                    'blocks' => $blocks,
+                ]
+            ];
+        } else {
+            $data['blocks'] = $blocks;
+        }
+
+        return json_encode($data);
+    }
+
+    private function getSlackAttachmentColor(): string
     {
         $resin = $this->dailyNote->getCurrentResin();
         if ($resin >= 140) {
@@ -17,9 +37,24 @@ class OutputSlackService extends OutputBaseService
         return '#2EB886';
     }
 
-    public function getSlackWebhookBlocks($command): array
+    private function getSlackWebhookBlocks(Config $user, string $gaveSlackUserId, string $command): array
     {
-        $blocks = [];
+        $headText = "<@${gaveSlackUserId}> ";
+        if ($gaveSlackUserId === $user->getSlackUserId()) {
+            $headText .= 'Your data!';
+        } else {
+            $headText .= 'Data of ' . $user->getAlias();
+        }
+
+        $blocks = [
+            [
+                'type' => 'section',
+                'text' => [
+                    'type' => 'mrkdwn',
+                    'text' => $headText,
+                ],
+            ],
+        ];
 
         if ($command === '/genshin' || $command === '/resin') {
             $blocks[] = $this->getSlackWebhookResinBlock();

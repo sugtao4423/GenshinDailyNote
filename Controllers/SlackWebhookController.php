@@ -44,44 +44,8 @@ class SlackWebhookController
             exit(1);
         }
 
-        $outputSlackService = new OutputSlackService($dailyNote);
-        $blocks = array_merge(
-            $this->getHeadBlock($user),
-            $outputSlackService->getSlackWebhookBlocks($this->command)
-        );
-
-        $data = ['response_type' => 'in_channel'];
-        if ($this->command === '/genshin' || $this->command === '/resin') {
-            $data['attachments'] = [
-                [
-                    'color' => $outputSlackService->getSlackAttachmentColor(),
-                    'blocks' => $blocks,
-                ]
-            ];
-        } else {
-            $data['blocks'] = $blocks;
-        }
-
+        $text = (new OutputSlackService($dailyNote))->getSlackOutput($user, $this->gaveSlackUserId, $this->command);
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($data);
-    }
-
-    private function getHeadBlock(Config $user): array
-    {
-        $headText = "<@{$this->gaveSlackUserId}> ";
-        if ($this->gaveSlackUserId === $user->getSlackUserId()) {
-            $headText .= 'Your data!';
-        } else {
-            $headText .= 'Data of ' . $user->getAlias();
-        }
-        return [
-            [
-                'type' => 'section',
-                'text' => [
-                    'type' => 'mrkdwn',
-                    'text' => $headText,
-                ],
-            ],
-        ];
+        echo $text;
     }
 }

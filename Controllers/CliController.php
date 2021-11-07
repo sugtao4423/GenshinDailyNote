@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../Services/ConfigService.php';
 require_once __DIR__ . '/../Services/DailyNoteService.php';
-require_once __DIR__ . '/../Services/OutputFormatService.php';
+require_once __DIR__ . '/../Services/OutputCliService.php';
 
 class CliController
 {
@@ -33,7 +33,7 @@ class CliController
             exit(1);
         }
 
-        $text = (new OutputFormatService($dailyNote))->getCliOutput();
+        $text = (new OutputCliService($dailyNote))->getCliOutput();
         echo $text . PHP_EOL;
     }
 }

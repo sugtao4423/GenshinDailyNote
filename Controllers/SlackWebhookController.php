@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../Services/ConfigService.php';
 require_once __DIR__ . '/../Services/DailyNoteService.php';
-require_once __DIR__ . '/../Services/OutputFormatService.php';
+require_once __DIR__ . '/../Services/OutputSlackService.php';
 
 class SlackWebhookController
 {
@@ -44,17 +44,17 @@ class SlackWebhookController
             exit(1);
         }
 
-        $outputFormatService = new OutputFormatService($dailyNote);
+        $outputSlackService = new OutputSlackService($dailyNote);
         $blocks = array_merge(
             $this->getHeadBlock($user),
-            $outputFormatService->getSlackWebhookBlocks($this->command)
+            $outputSlackService->getSlackWebhookBlocks($this->command)
         );
 
         $data = ['response_type' => 'in_channel'];
         if ($this->command === '/genshin' || $this->command === '/resin') {
             $data['attachments'] = [
                 [
-                    'color' => $outputFormatService->getSlackAttachmentColor(),
+                    'color' => $outputSlackService->getSlackAttachmentColor(),
                     'blocks' => $blocks,
                 ]
             ];

@@ -34,54 +34,44 @@ class OutputSlackService extends OutputBaseService
         return $blocks;
     }
 
-    private function getSlackWebhookResinBlock(): array
+    private function createSection(string $text1, string $text2): array
     {
         return [
             'type' => 'section',
             'fields' => [
                 [
                     'type' => 'mrkdwn',
-                    'text' => "*Resin:*\n" . $this->msgResinCount()
+                    'text' => $text1,
                 ],
                 [
                     'type' => 'mrkdwn',
-                    'text' => "*Resin Recovery:*\n" . $this->msgResinRecovery()
+                    'text' => $text2,
                 ]
             ],
         ];
+    }
+
+    private function getSlackWebhookResinBlock(): array
+    {
+        return $this->createSection(
+            "*Resin:*\n" . $this->msgResinCount(),
+            "*Resin Recovery:*\n" . $this->msgResinRecovery()
+        );
     }
 
     private function getSlackWebhookDailyCommissionBlock(): array
     {
-        return [
-            'type' => 'section',
-            'fields' => [
-                [
-                    'type' => 'mrkdwn',
-                    'text' => "*Daily Commissions:*\n" . $this->msgDailyCommissionCount()
-                ],
-                [
-                    'type' => 'mrkdwn',
-                    'text' => "*Got Commission Reward:*\n" . $this->msgGotCommissionReward()
-                ]
-            ],
-        ];
+        return $this->createSection(
+            "*Daily Commissions:*\n" . $this->msgDailyCommissionCount(),
+            "*Got Commission Reward:*\n" . $this->msgGotCommissionReward()
+        );
     }
 
     private function getSlackWebhookExpeditionBlock(): array
     {
-        return [
-            'type' => 'section',
-            'fields' => [
-                [
-                    'type' => 'mrkdwn',
-                    'text' => "*Expeditions:*\n" . $this->msgExpeditionCount()
-                ],
-                [
-                    'type' => 'mrkdwn',
-                    'text' => $this->msgExpeditionRemainedTimes(0)
-                ]
-            ],
-        ];
+        return $this->createSection(
+            "*Expeditions:*\n" . $this->msgExpeditionCount(),
+            $this->msgExpeditionRemainedTimes(0)
+        );
     }
 }

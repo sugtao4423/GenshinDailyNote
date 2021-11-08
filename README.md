@@ -1,6 +1,10 @@
 # GenshinDailyNote
 樹脂確認を怠るな
 
+* [in shell](#in-shell)
+* [in Slack](#in-slack)
+* [Slack resin notify](#slack-resin-notify)
+
 ## in shell
 ```
 $ php GenshinDailyNote.php userAliasName
@@ -33,3 +37,19 @@ Usage: `command [user alias name]`
 
 ### /expedition
 <img src="https://user-images.githubusercontent.com/8792860/140658454-214af233-0068-40ae-8b26-d8d1b087a3c3.png" alt="expedition" width="300px">
+
+## Slack resin notify
+All options required below.
+
+short | long | description
+--- | --- | ---
+-s | --send-slack | Make it clear that this is a notification to Slack.
+-u | --user-alias | User alias name.
+-o | --resin-over | {number} >= resin.
+-n | --not-resin-over | {number} < resin.
+
+#### eg.
+```
+$ crontab -l
+0 */2 * * * php GenshinDailyNote.php -s -u {user alias name} -o 120 -n 160
+```

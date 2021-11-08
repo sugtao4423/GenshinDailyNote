@@ -9,9 +9,19 @@ class OutputSlackService extends OutputBaseService
 {
     public function getSlackOutput(User $user, string $gaveSlackUserId, string $command): string
     {
-        $blocks = $this->getSlackWebhookBlocks($user, $gaveSlackUserId, $command);
+        $headText = "<@${gaveSlackUserId}> ";
+        if ($gaveSlackUserId === $user->getSlackUserId()) {
+            $headText .= 'Your data!';
+        } else {
+            $headText .= 'Data of ' . $user->getAlias();
+        }
 
-        $data = ['response_type' => 'in_channel'];
+        $blocks = $this->getSlackWebhookBlocks($command);
+
+        $data = [
+            'response_type' => 'in_channel',
+            'text' => $headText,
+        ];
         if ($command === '/genshin' || $command === '/resin') {
             $data['attachments'] = [
                 [
@@ -30,17 +40,11 @@ class OutputSlackService extends OutputBaseService
     {
         $data = [
             'response_type' => 'in_channel',
+            'text' => "<@{$user->getSlackUserId()}> Check your resin!",
             'attachments' => [
                 [
                     'color' => $this->getSlackAttachmentColor(),
                     'blocks' => [
-                        [
-                            'type' => 'section',
-                            'text' => [
-                                'type' => 'mrkdwn',
-                                'text' => "<@{$user->getSlackUserId()}> Check your resin!",
-                            ],
-                        ],
                         $this->getSlackWebhookResinBlock(),
                     ],
                 ],
@@ -60,25 +64,9 @@ class OutputSlackService extends OutputBaseService
         return '#2EB886';
     }
 
-    private function getSlackWebhookBlocks(User $user, string $gaveSlackUserId, string $command): array
+    private function getSlackWebhookBlocks(string $command): array
     {
-        $headText = "<@${gaveSlackUserId}> ";
-        if ($gaveSlackUserId === $user->getSlackUserId()) {
-            $headText .= 'Your data!';
-        } else {
-            $headText .= 'Data of ' . $user->getAlias();
-        }
-
-        $blocks = [
-            [
-                'type' => 'section',
-                'text' => [
-                    'type' => 'mrkdwn',
-                    'text' => $headText,
-                ],
-            ],
-        ];
-
+        $blocks = [];
         if ($command === '/genshin' || $command === '/resin') {
             $blocks[] = $this->getSlackWebhookResinBlock();
         }

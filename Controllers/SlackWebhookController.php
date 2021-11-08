@@ -18,7 +18,7 @@ class SlackWebhookController
         global $_POST;
         $this->command = $_POST['command'];
         $this->gaveSlackUserId = $_POST['user_id'];
-        $this->gaveText = $_POST['text'];
+        $this->gaveText = $_POST['text'] ?? '';
 
         $this->echoJson();
     }

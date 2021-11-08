@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../Data/User.php';
 require_once __DIR__ . '/../Services/ConfigService.php';
 require_once __DIR__ . '/../Services/DailyNoteService.php';
 require_once __DIR__ . '/../Services/OutputSlackService.php';
@@ -22,7 +23,7 @@ class SlackWebhookController
         $this->echoJson();
     }
 
-    private function getUser(): ?Config
+    private function getUser(): ?User
     {
         if (trim($this->gaveText) !== '') {
             return (new ConfigService())->getUserByAlias($this->gaveText);

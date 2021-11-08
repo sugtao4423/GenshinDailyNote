@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class Config
+class User
 {
     protected string $alias;
     protected string $giUid;

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/OutputBaseService.php';
-require_once __DIR__ . '/../Data/Config.php';
+require_once __DIR__ . '/../Data/User.php';
 
 class OutputSlackService extends OutputBaseService
 {
-    public function getSlackOutput(Config $user, string $gaveSlackUserId, string $command): string
+    public function getSlackOutput(User $user, string $gaveSlackUserId, string $command): string
     {
         $blocks = $this->getSlackWebhookBlocks($user, $gaveSlackUserId, $command);
 
@@ -37,7 +37,7 @@ class OutputSlackService extends OutputBaseService
         return '#2EB886';
     }
 
-    private function getSlackWebhookBlocks(Config $user, string $gaveSlackUserId, string $command): array
+    private function getSlackWebhookBlocks(User $user, string $gaveSlackUserId, string $command): array
     {
         $headText = "<@${gaveSlackUserId}> ";
         if ($gaveSlackUserId === $user->getSlackUserId()) {

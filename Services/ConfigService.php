@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../Data/Config.php';
+require_once __DIR__ . '/../Data/User.php';
 
 class ConfigService
 {
@@ -11,7 +11,7 @@ class ConfigService
     protected string $timezone;
 
     /**
-     * @var Config[]
+     * @var User[]
      */
     protected array $users;
 
@@ -21,7 +21,7 @@ class ConfigService
         $json = json_decode($file, true);
         $this->timezone = $json['timezone'];
         $this->users = array_map(function ($user) {
-            return new Config($user);
+            return new User($user);
         }, $json['users']);
     }
 
@@ -30,7 +30,7 @@ class ConfigService
         return $this->timezone;
     }
 
-    public function getUserByAlias(string $alias): ?Config
+    public function getUserByAlias(string $alias): ?User
     {
         foreach ($this->users as $user) {
             if (strtolower($user->getAlias()) === strtolower($alias)) {
@@ -40,7 +40,7 @@ class ConfigService
         return null;
     }
 
-    public function getUserBySlackUserId(string $slackUserId): ?Config
+    public function getUserBySlackUserId(string $slackUserId): ?User
     {
         foreach ($this->users as $user) {
             if ($user->getSlackUserId() === $slackUserId) {

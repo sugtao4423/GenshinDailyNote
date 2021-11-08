@@ -26,6 +26,29 @@ class OutputSlackService extends OutputBaseService
         return json_encode($data);
     }
 
+    public function getSlackResinNotifyOutput(User $user): string
+    {
+        $data = [
+            'response_type' => 'in_channel',
+            'attachments' => [
+                [
+                    'color' => $this->getSlackAttachmentColor(),
+                    'blocks' => [
+                        [
+                            'type' => 'section',
+                            'text' => [
+                                'type' => 'mrkdwn',
+                                'text' => "<@{$user->getSlackUserId()}> Check your resin!",
+                            ],
+                        ],
+                        $this->getSlackWebhookResinBlock(),
+                    ],
+                ],
+            ],
+        ];
+        return json_encode($data);
+    }
+
     private function getSlackAttachmentColor(): string
     {
         $resin = $this->dailyNote->getCurrentResin();

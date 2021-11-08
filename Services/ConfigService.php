@@ -8,6 +8,7 @@ require_once __DIR__ . '/../Config.php';
 class ConfigService
 {
     protected string $timezone;
+    protected string $slackWebhookUrl;
 
     /**
      * @var User[]
@@ -17,6 +18,7 @@ class ConfigService
     public function __construct()
     {
         $this->timezone = Config::$timezone;
+        $this->slackWebhookUrl = Config::$slackWebhookUrl;
         $this->users = array_map(function ($user) {
             return new User($user);
         }, Config::$users);
@@ -25,6 +27,11 @@ class ConfigService
     public function getTimezone(): string
     {
         return $this->timezone;
+    }
+
+    public function getSlackWebhookUrl(): string
+    {
+        return $this->slackWebhookUrl;
     }
 
     public function getUserByAlias(string $alias): ?User

@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../Data/User.php';
+require_once __DIR__ . '/../Config.php';
 
 class ConfigService
 {
-    protected string $CONFIG_FILE = __DIR__ . '/../config.json';
-
     protected string $timezone;
 
     /**
@@ -17,12 +16,10 @@ class ConfigService
 
     public function __construct()
     {
-        $file = file_get_contents($this->CONFIG_FILE);
-        $json = json_decode($file, true);
-        $this->timezone = $json['timezone'];
+        $this->timezone = Config::$timezone;
         $this->users = array_map(function ($user) {
             return new User($user);
-        }, $json['users']);
+        }, Config::$users);
     }
 
     public function getTimezone(): string

@@ -23,6 +23,12 @@ abstract class OutputBaseService
         return $this->seconds2human($this->dailyNote->getResinRecoveryTime());
     }
 
+    protected function msgResinRecoveryAt(): string
+    {
+        $seconds = $this->dailyNote->getResinRecoveryTime();
+        return date('H:i', strtotime("+${seconds} second"));
+    }
+
     protected function msgDailyCommissionCount(): string
     {
         return $this->dailyNote->getFinishedTaskNum() . ' / ' . $this->dailyNote->getTotalTaskNum();

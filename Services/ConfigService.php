@@ -8,6 +8,8 @@ class ConfigService
 {
     protected string $CONFIG_FILE = __DIR__ . '/../config.json';
 
+    protected string $timezone;
+
     /**
      * @var Config[]
      */
@@ -17,9 +19,15 @@ class ConfigService
     {
         $file = file_get_contents($this->CONFIG_FILE);
         $json = json_decode($file, true);
+        $this->timezone = $json['timezone'];
         $this->users = array_map(function ($user) {
             return new Config($user);
         }, $json['users']);
+    }
+
+    public function getTimezone(): string
+    {
+        return $this->timezone;
     }
 
     public function getUserByAlias(string $alias): ?Config

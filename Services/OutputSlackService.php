@@ -18,11 +18,9 @@ class OutputSlackService extends OutputBaseService
 
         $blocks = $this->getSlackWebhookBlocks($command);
 
-        $data = [
-            'response_type' => 'in_channel',
-            'text' => $headText,
-        ];
+        $data = ['response_type' => 'in_channel'];
         if ($command === '/genshin' || $command === '/resin') {
+            $data['text'] = $headText;
             $data['attachments'] = [
                 [
                     'color' => $this->getSlackAttachmentColor(),
@@ -30,7 +28,16 @@ class OutputSlackService extends OutputBaseService
                 ]
             ];
         } else {
-            $data['blocks'] = $blocks;
+            $headBlock = [
+                [
+                    'type' => 'section',
+                    'text' => [
+                        'type' => 'mrkdwn',
+                        'text' => $headText,
+                    ],
+                ]
+            ];
+            $data['blocks'] = array_merge($headBlock, $blocks);
         }
 
         return json_encode($data);

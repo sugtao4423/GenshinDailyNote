@@ -28,15 +28,7 @@ class OutputSlackService extends OutputBaseService
                 ]
             ];
         } else {
-            $headBlock = [
-                [
-                    'type' => 'section',
-                    'text' => [
-                        'type' => 'mrkdwn',
-                        'text' => $headText,
-                    ],
-                ]
-            ];
+            $headBlock = [$this->createSection($headText)];
             $data['blocks'] = array_merge($headBlock, $blocks);
         }
 
@@ -87,7 +79,18 @@ class OutputSlackService extends OutputBaseService
         return $blocks;
     }
 
-    private function createSection(string $text1, string $text2): array
+    private function createSection(string $text): array
+    {
+        return [
+            'type' => 'section',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => $text,
+            ],
+        ];
+    }
+
+    private function createFiledsSection(string $text1, string $text2): array
     {
         return [
             'type' => 'section',
@@ -106,7 +109,7 @@ class OutputSlackService extends OutputBaseService
 
     private function getSlackWebhookResinBlock(): array
     {
-        return $this->createSection(
+        return $this->createFiledsSection(
             "*Resin:*\n" . $this->msgResinCount(),
             "*Resin Recovery:*\n{$this->msgResinRecovery()} left (at {$this->msgResinRecoveryAt()})",
         );
@@ -114,7 +117,7 @@ class OutputSlackService extends OutputBaseService
 
     private function getSlackWebhookDailyCommissionBlock(): array
     {
-        return $this->createSection(
+        return $this->createFiledsSection(
             "*Daily Commissions:*\n" . $this->msgDailyCommissionCount(),
             "*Got Commission Reward:*\n" . $this->msgGotCommissionReward()
         );
@@ -122,7 +125,7 @@ class OutputSlackService extends OutputBaseService
 
     private function getSlackWebhookExpeditionBlock(): array
     {
-        return $this->createSection(
+        return $this->createFiledsSection(
             "*Expeditions:*\n" . $this->msgExpeditionCount(),
             $this->msgExpeditionRemainedTimes(0)
         );

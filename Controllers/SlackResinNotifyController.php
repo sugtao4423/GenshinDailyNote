@@ -3,24 +3,34 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../Services/ConfigService.php';
+require_once __DIR__ . '/../Data/User.php';
 require_once __DIR__ . '/../Services/DailyNoteService.php';
 require_once __DIR__ . '/../Services/OutputSlackService.php';
 require_once __DIR__ . '/../Repositories/SlackRepository.php';
 
 class SlackResinNotifyController
 {
+    protected ConfigService $config;
+
     public function __construct()
     {
-        $opts = getopt('u:o:n:', [
+        $this->config = new ConfigService();
+
+        $opts = getopt('au:o:n:', [
+            'all-users',
             'user-alias:',
             'resin-over:',
             'not-resin-over:',
         ]);
+        $isAllUsers = isset($opts['a']) ?: isset($opts['all-users']);
         $userAlias = $opts['u'] ?? @$opts['user-alias'];
         $resinOver = $opts['o'] ?? @$opts['resin-over'];
         $notResinOver = $opts['n'] ?? @$opts['not-resin-over'];
 
-        if (!isset($userAlias) || !isset($resinOver) || !isset($notResinOver)) {
+        if ((!$isAllUsers && !isset($userAlias)) ||
+            !isset($resinOver) ||
+            !isset($notResinOver)
+        ) {
             echo 'Missing required arguments.' . PHP_EOL;
             exit(1);
         }
@@ -29,19 +39,38 @@ class SlackResinNotifyController
             exit(1);
         }
 
-        $this->sendSlack($userAlias, intval($resinOver), intval($notResinOver));
+        if ($isAllUsers) {
+            $this->sendAllUsers(intval($resinOver), intval($notResinOver));
+        } else {
+            $this->sendUser($userAlias, intval($resinOver), intval($notResinOver));
+        }
     }
 
-    private function sendSlack(string $userAlias, int $resinOver, int $notResinOver): void
+    private function sendAllUsers(int $resinOver, int $notResinOver): void
     {
-        $config = new ConfigService();
+        $users = $this->config->getUsers();
+        $userCount = count($users);
+        $lastIndex = $userCount - 1;
+        for ($i = 0; $i < $userCount; $i++) {
+            $this->sendSlack($users[$i], $resinOver, $notResinOver);
+            if ($i !== $lastIndex) {
+                sleep(5);
+            }
+        }
+    }
 
-        $user = $config->getUserByAlias($userAlias);
+    private function sendUser(string $userAlias, int $resinOver, int $notResinOver): void
+    {
+        $user = $this->config->getUserByAlias($userAlias);
         if ($user === null) {
             echo 'User not found.' . PHP_EOL;
             exit(1);
         }
+        $this->sendSlack($user, $resinOver, $notResinOver);
+    }
 
+    private function sendSlack(User $user, int $resinOver, int $notResinOver): void
+    {
         $dailyNote = (new DailyNoteService())->getDailyNote($user);
         if ($dailyNote === null) {
             echo 'Failed to get daily note.' . PHP_EOL;
@@ -50,7 +79,7 @@ class SlackResinNotifyController
 
         if ($dailyNote->getCurrentResin() >= $resinOver && $dailyNote->getCurrentResin() < $notResinOver) {
             $message = (new OutputSlackService($dailyNote))->getSlackResinNotifyOutput($user);
-            (new SlackRepository($config->getSlackWebhookUrl()))->sendJson($message);
+            (new SlackRepository($this->config->getSlackWebhookUrl()))->sendJson($message);
         }
     }
 }

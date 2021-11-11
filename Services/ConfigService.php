@@ -34,6 +34,14 @@ class ConfigService
         return $this->slackWebhookUrl;
     }
 
+    /**
+     * @return User[]
+     */
+    public function getUsers(): array
+    {
+        return $this->users;
+    }
+
     public function getUserByAlias(string $alias): ?User
     {
         foreach ($this->users as $user) {

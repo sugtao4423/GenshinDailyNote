@@ -20,13 +20,10 @@ abstract class OutputBaseService
 
     protected function msgResinRecovery(): string
     {
-        return $this->seconds2human($this->dailyNote->getResinRecoveryTime());
-    }
-
-    protected function msgResinRecoveryAt(): string
-    {
-        $seconds = $this->dailyNote->getResinRecoveryTime();
-        return date('H:i', strtotime("+${seconds} second"));
+        $resinRecoveryLeft = $this->seconds2human($this->dailyNote->getResinRecoveryTime());
+        $resinRecoverySeconds = $this->dailyNote->getResinRecoveryTime();
+        $resinRecoveryAt = date('H:i', strtotime("+${resinRecoverySeconds} second"));
+        return "${resinRecoveryLeft} left (at ${resinRecoveryAt})";
     }
 
     protected function msgDailyCommissionCount(): string

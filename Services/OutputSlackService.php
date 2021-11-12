@@ -111,7 +111,7 @@ class OutputSlackService extends OutputBaseService
     {
         return $this->createFiledsSection(
             "*Resin:*\n" . $this->msgResinCount(),
-            "*Resin Recovery:*\n{$this->msgResinRecovery()} left (at {$this->msgResinRecoveryAt()})",
+            "*Resin Recovery:*\n" . $this->msgResinRecovery(),
         );
     }
 

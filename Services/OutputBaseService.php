@@ -20,6 +20,9 @@ abstract class OutputBaseService
 
     protected function msgResinRecovery(): string
     {
+        if ($this->dailyNote->getCurrentResin() >= $this->dailyNote->getMaxResin()) {
+            return 'Resin is full!';
+        }
         $resinRecoveryLeft = $this->seconds2human($this->dailyNote->getResinRecoveryTime());
         $resinRecoverySeconds = $this->dailyNote->getResinRecoveryTime();
         $resinRecoveryAt = date('H:i', strtotime("+${resinRecoverySeconds} second"));

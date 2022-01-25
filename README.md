@@ -8,35 +8,40 @@
 ## in shell
 ```
 $ php GenshinDailyNote.php userAliasName
-Resin: 106 / 160
-Resin Recovery: 7:11:18 left (at 12:12)
+Resin: 82 / 160
+Resin Recovery: 10:23:27 left (at 05:08)
 Daily Commissions: 0 / 4
 Got Commission Reward: No
 Expeditions: 5 / 5
-  Expedition#1: 14:25:59 left
-  Expedition#2: 14:23:51 left
-  Expedition#3: 14:25:59 left
-  Expedition#4: 14:23:51 left
-  Expedition#5: 14:25:59 left
+  Expedition#1: 14:53:45 left
+  Expedition#2: 14:53:45 left
+  Expedition#3: 14:53:45 left
+  Expedition#4: 14:53:45 left
+  Expedition#5: 14:53:45 left
+Home Coin: 780 / 2400
+Home Coin Recovery: 53:55:27 left (at 01/28 00:40)
 ```
 
 ## in Slack
 [Slack API: Applications](https://api.slack.com/apps)
 
-Slash Commands: `/genshin` `/resin` `/daily` `/expedition`  
+Slash Commands: `/genshin` `/resin` `/daily` `/expedition` `/home`  
 Usage: `command [user alias name]`
 
 ### /genshin
-<img src="https://user-images.githubusercontent.com/8792860/140810095-3c7c207a-1731-4c5c-aaaf-dd9f12049691.png" alt="genshin" width="300px">
+<img src="https://user-images.githubusercontent.com/8792860/150952692-e605aa38-7f88-456e-81e2-cbde6cccc820.png" alt="genshin" width="300px">
 
 ### /resin
-<img src="https://user-images.githubusercontent.com/8792860/140810112-09710693-9078-4bc8-8e45-6070101abd67.png" alt="resin" width="300px">
+<img src="https://user-images.githubusercontent.com/8792860/150952703-ceed75ff-5a04-4ab5-bd0e-32612b060810.png" alt="resin" width="300px">
 
 ### /daily
-<img src="https://user-images.githubusercontent.com/8792860/140658451-b9d50f86-13a8-46e1-aa43-07e051e4f146.png" alt="daily" width="300px">
+<img src="https://user-images.githubusercontent.com/8792860/150952705-13d1f7b4-6822-487b-a217-a19ec573d9c4.png" alt="daily" width="300px">
 
 ### /expedition
-<img src="https://user-images.githubusercontent.com/8792860/140658454-214af233-0068-40ae-8b26-d8d1b087a3c3.png" alt="expedition" width="300px">
+<img src="https://user-images.githubusercontent.com/8792860/150952707-d0e7ce91-6fa0-451f-9743-70692641efa0.png" alt="expedition" width="300px">
+
+### /home
+<img src="https://user-images.githubusercontent.com/8792860/150952709-9f268895-333b-4547-be3c-9491d5ef4428.png" alt="home" width="300px">
 
 ## Slack resin notify
 short | long | required | description

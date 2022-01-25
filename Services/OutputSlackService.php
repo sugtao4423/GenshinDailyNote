@@ -75,6 +75,9 @@ class OutputSlackService extends OutputBaseService
         if ($command === '/genshin' || $command === '/expedition') {
             $blocks[] = $this->getSlackWebhookExpeditionBlock();
         }
+        if ($command === '/genshin' || $command === '/home') {
+            $blocks[] = $this->getSlackWebhookHomeCoinBlock();
+        }
 
         return $blocks;
     }
@@ -128,6 +131,14 @@ class OutputSlackService extends OutputBaseService
         return $this->createFiledsSection(
             "*Expeditions:*\n" . $this->msgExpeditionCount(),
             $this->msgExpeditionRemainedTimes(0)
+        );
+    }
+
+    private function getSlackWebhookHomeCoinBlock(): array
+    {
+        return $this->createFiledsSection(
+            "*Home Coin:*\n" . $this->msgHomeCoinCount(),
+            "*Home Coin Recovery:*\n" . $this->msgHomeCoinRecovery()
         );
     }
 }

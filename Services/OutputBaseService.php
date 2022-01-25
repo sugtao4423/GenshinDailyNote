@@ -54,6 +54,22 @@ abstract class OutputBaseService
         return implode(PHP_EOL, $texts);
     }
 
+    protected function msgHomeCoinCount(): string
+    {
+        return $this->dailyNote->getCurrentHomeCoin() . ' / ' . $this->dailyNote->getMaxHomeCoin();
+    }
+
+    protected function msgHomeCoinRecovery(): string
+    {
+        if ($this->dailyNote->getCurrentHomeCoin() >= $this->dailyNote->getMaxHomeCoin()) {
+            return 'Home Coin is full!';
+        }
+        $homeCoinRecoveryLeft = $this->seconds2human($this->dailyNote->getHomeCoinRecoveryTime());
+        $homeCoinRecoverySeconds = $this->dailyNote->getHomeCoinRecoveryTime();
+        $homeCoinRecoveryAt = date('m/d H:i', strtotime("+${homeCoinRecoverySeconds} second"));
+        return "${homeCoinRecoveryLeft} left (at ${homeCoinRecoveryAt})";
+    }
+
     private function seconds2human($seconds): string
     {
         $seconds = intval($seconds);

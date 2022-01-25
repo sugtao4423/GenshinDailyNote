@@ -13,7 +13,9 @@ class OutputCliService extends OutputBaseService
         $result .= 'Daily Commissions: ' . $this->msgDailyCommissionCount() . PHP_EOL;
         $result .= 'Got Commission Reward: ' . $this->msgGotCommissionReward() . PHP_EOL;
         $result .= 'Expeditions: ' . $this->msgExpeditionCount() . PHP_EOL;
-        $result .= $this->msgExpeditionRemainedTimes(2);
+        $result .= $this->msgExpeditionRemainedTimes(2) . PHP_EOL;
+        $result .= 'Home Coin: ' . $this->msgHomeCoinCount() . PHP_EOL;
+        $result .= 'Home Coin Recovery: ' . $this->msgHomeCoinRecovery();
         return $result;
     }
 }

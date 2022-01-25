@@ -16,6 +16,9 @@ class DailyNote
     protected int $resinDiscountNumLimit;
     protected int $currentExpeditionNum;
     protected int $maxExpeditionNum;
+    protected int $currentHomeCoin;
+    protected int $maxHomeCoin;
+    protected string $homeCoinRecoveryTime;
 
     /**
      * @var Expedition[]
@@ -37,6 +40,9 @@ class DailyNote
         $this->expeditions = array_map(function ($data) {
             return new Expedition($data);
         }, $data['expeditions']);
+        $this->currentHomeCoin = $data['current_home_coin'];
+        $this->maxHomeCoin = $data['max_home_coin'];
+        $this->homeCoinRecoveryTime = $data['home_coin_recovery_time'];
     }
 
     public function getCurrentResin(): int
@@ -95,5 +101,20 @@ class DailyNote
     public function getExpeditions(): array
     {
         return $this->expeditions;
+    }
+
+    public function getCurrentHomeCoin(): int
+    {
+        return $this->currentHomeCoin;
+    }
+
+    public function getMaxHomeCoin(): int
+    {
+        return $this->maxHomeCoin;
+    }
+
+    public function getHomeCoinRecoveryTime(): string
+    {
+        return $this->homeCoinRecoveryTime;
     }
 }

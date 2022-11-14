@@ -24,7 +24,7 @@ class HoYoLabRepository
             'role_id' => $this->uid,
         ];
         $url = $this->DAILY_NOTE_API_URL . '?' . http_build_query($query);
-        $ds = $this->createDynamicSecret($query);
+        $ds = $this->createDynamicSecret();
 
         $header = [
             'Accept-Language: ja',

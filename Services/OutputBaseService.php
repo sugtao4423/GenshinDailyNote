@@ -25,8 +25,8 @@ abstract class OutputBaseService
         }
         $resinRecoveryLeft = $this->seconds2human($this->dailyNote->getResinRecoveryTime());
         $resinRecoverySeconds = $this->dailyNote->getResinRecoveryTime();
-        $resinRecoveryAt = date('H:i', strtotime("+${resinRecoverySeconds} second"));
-        return "${resinRecoveryLeft} left (at ${resinRecoveryAt})";
+        $resinRecoveryAt = date('H:i', strtotime("+{$resinRecoverySeconds} second"));
+        return "{$resinRecoveryLeft} left (at {$resinRecoveryAt})";
     }
 
     protected function msgDailyCommissionCount(): string
@@ -49,7 +49,7 @@ abstract class OutputBaseService
         $indents = str_repeat(' ', $indentCount);
         $texts = [];
         foreach ($this->dailyNote->getExpeditions() as $i => $expedition) {
-            $texts[] = "${indents}Expedition#" . ($i + 1) . ': ' . $this->seconds2human($expedition->getRemainedTime()) . ' left';
+            $texts[] = "{$indents}Expedition#" . ($i + 1) . ': ' . $this->seconds2human($expedition->getRemainedTime()) . ' left';
         }
         return implode(PHP_EOL, $texts);
     }
@@ -66,8 +66,8 @@ abstract class OutputBaseService
         }
         $homeCoinRecoveryLeft = $this->seconds2human($this->dailyNote->getHomeCoinRecoveryTime());
         $homeCoinRecoverySeconds = $this->dailyNote->getHomeCoinRecoveryTime();
-        $homeCoinRecoveryAt = date('m/d H:i', strtotime("+${homeCoinRecoverySeconds} second"));
-        return "${homeCoinRecoveryLeft} left (at ${homeCoinRecoveryAt})";
+        $homeCoinRecoveryAt = date('m/d H:i', strtotime("+{$homeCoinRecoverySeconds} second"));
+        return "{$homeCoinRecoveryLeft} left (at {$homeCoinRecoveryAt})";
     }
 
     private function seconds2human($seconds): string

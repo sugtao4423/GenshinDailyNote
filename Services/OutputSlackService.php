@@ -9,7 +9,7 @@ class OutputSlackService extends OutputBaseService
 {
     public function getSlackOutput(User $user, string $gaveSlackUserId, string $command): string
     {
-        $headText = "<@${gaveSlackUserId}> ";
+        $headText = "<@{$gaveSlackUserId}> ";
         if ($gaveSlackUserId === $user->getSlackUserId()) {
             $headText .= 'Your data!';
         } else {

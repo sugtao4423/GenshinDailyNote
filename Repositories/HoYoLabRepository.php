@@ -57,7 +57,7 @@ class HoYoLabRepository
         $time = time();
         $random = random_int(100000, 199999);
 
-        $hash = md5("salt={$this->DS_SALT}&t=${time}&r=${random}");
+        $hash = md5("salt={$this->DS_SALT}&t={$time}&r={$random}");
 
         return implode(',', [$time, $random, $hash]);
     }

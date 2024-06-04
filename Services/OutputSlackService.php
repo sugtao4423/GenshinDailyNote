@@ -55,9 +55,10 @@ class OutputSlackService extends OutputBaseService
     private function getSlackAttachmentColor(): string
     {
         $resin = $this->dailyNote->getCurrentResin();
-        if ($resin >= 140) {
+        $maxResin = $this->dailyNote->getMaxResin();
+        if ($resin >= $maxResin - 20) {
             return '#A30100';
-        } else if ($resin >= 120) {
+        } else if ($resin >= $maxResin - 40) {
             return '#DAA038';
         }
         return '#2EB886';

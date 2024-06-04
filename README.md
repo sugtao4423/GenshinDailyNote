@@ -55,5 +55,5 @@ short | long | required | description
 #### eg.
 ```
 $ crontab -l
-0 */2 * * * php GenshinDailyNote.php -s -u {user alias name} -o 120 -n 160
+0 */2 * * * php GenshinDailyNote.php -s -u {user alias name} -o 160 -n 200
 ```

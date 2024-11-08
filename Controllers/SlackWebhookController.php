@@ -15,7 +15,6 @@ class SlackWebhookController
 
     public function __construct()
     {
-        global $_POST;
         $this->command = $_POST['command'];
         $this->gaveSlackUserId = $_POST['user_id'];
         $this->gaveText = $_POST['text'] ?? '';

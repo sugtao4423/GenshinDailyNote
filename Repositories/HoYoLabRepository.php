@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 class HoYoLabRepository
 {
-    private string $DAILY_NOTE_API_URL = 'https://bbs-api-os.hoyolab.com/game_record/app/genshin/api/dailyNote';
-    private string $APP_VERSION = '3.0.1';
+    private const DAILY_NOTE_API_URL = 'https://bbs-api-os.hoyolab.com/game_record/app/genshin/api/dailyNote';
+    private const APP_VERSION = '3.0.1';
 
     private string $uid;
     private string $cookie;
@@ -22,7 +22,7 @@ class HoYoLabRepository
             'server' => 'os_asia',
             'role_id' => $this->uid,
         ];
-        $url = $this->DAILY_NOTE_API_URL . '?' . http_build_query($query);
+        $url = self::DAILY_NOTE_API_URL . '?' . http_build_query($query);
 
         $header = [
             'Accept-Language: ja',
@@ -30,7 +30,7 @@ class HoYoLabRepository
             'Cookie: ' . $this->cookie,
             'Origin: https://act.hoyolab.com',
             'Referer: https://act.hoyolab.com/',
-            'x-rpc-app_version: ' . $this->APP_VERSION,
+            'x-rpc-app_version: ' . self::APP_VERSION,
             'x-rpc-client_type: 5',
             'x-rpc-language: ja-jp',
             'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
